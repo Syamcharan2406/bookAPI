@@ -1,0 +1,68 @@
+-------->//requirements
+
+//we handle book publications
+
+//book
+// ISBN , Title ,Author[] ,Language, published date , Num of pages, Category []
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Authors 
+// name , Id , Books[]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//publications
+// Name , Id , Books[]
+.....................................................................................................................................................................
+-------->//requirements
+
+// books
+
+//we need an API                                     done
+//to get all books                                   done
+// to get specific book                              done
+// to get list of books based on category            done
+//to get a list of books based on author             done
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//post
+//new book
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//put
+//update book details
+//update add new author
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//delete
+//delete a book
+//delete a author from a book
+.....................................................................................................................................................................
+
+// authors
+
+//we need an API
+//to get all authors                                 done
+// to get specific author                            done
+// to get list of author based on a book             done
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//post
+//new author
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//put
+// author details
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//delete
+//delete author
+.....................................................................................................................................................................
+// publications
+
+//we need an API
+//to get all publications                            done
+// to get specific publications                      done
+// to get publication based on a book                done
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//post
+// add new publications
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//put
+//update publication details
+//update new book to publication
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//delete
+//delete publication
+.....................................................................................................................................................................
