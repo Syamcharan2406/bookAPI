@@ -188,6 +188,161 @@ codex.get('/publication/isbn/:isbn', (req, res) => {
     return res.status(200).json({ publisher: getSpecificPublications });
 });
 
+/* 
+Route           /addbook
+Description     adding new book
+Access          PUBLIC
+Parameters      NONE
+Method          POST
+*/
+codex.post('/addbook',(req,res)=>{
+    const { newBook } = req.body
+    database.books.push(newBook)
+    return res.json({ books : database.books , message : "book was added"})
+})
+
+/* 
+Route           /addauthor
+Description     adding new author
+Access          PUBLIC
+Parameters      NONE
+Method          POST
+*/
+codex.post('/addauthor',(req,res)=>{
+    const { newAuthor } = req.body
+    database.authors.push(newAuthor)
+    return res.json({ authors : database.authors , message : "author was added"})
+})
+
+/* 
+Route           /addpublication
+Description     adding new publication
+Access          PUBLIC
+Parameters      NONE
+Method          POST
+*/
+codex.post('/addpublication',(req,res)=>{
+    const { newPublication } = req.body
+    database.publications.push(newPublication)
+    return res.json({ Publication : database.publications , message : "publication was added"})
+})
+
+/* 
+Route           /book/update/
+Description     update title
+Access          PUBLIC
+Parameters      isbn
+Method          PUT
+*/
+codex.put('/book/update/:isbn',(req,res)=>{
+    database.books.forEach((book)=>{
+       if(book.ISBN === req.params.isbn  ) {
+        book.Title = req.body.bookTitle
+        return
+       }
+    })
+
+    return res.json({books : database.books})
+})
+
+/* 
+Route           /book/author/update/
+Description     update author
+Access          PUBLIC
+Parameters      isbn
+Method          PUT
+*/
+codex.put('/book/author/update/:isbn', (req, res) => {
+
+    //update the book database
+    database.books.forEach((book) => {
+
+        if (book.ISBN  === req.params.isbn)
+            return book.authors.push(req.body.newAuthor)
+    })
+
+    // update the author database 
+    database.authors.forEach((author) => {
+        if (author.id === req.body.newAuthor) 
+            return author.books.push(req.params.isbn)
+    })
+
+    return res.json({
+        books : database.books,
+        authors : database.authors,
+        message : `books and authors got update`
+    })
+})
+
+/* 
+Route           /author/update/
+Description     update name
+Access          PUBLIC
+Parameters      id
+Method          PUT
+*/
+codex.put('/author/update/:id',(req,res)=>{
+    database.authors.forEach((author)=>{
+       if(author.id === Number(req.params.id) ) {
+        author.name = req.body.authorName
+        return
+       }
+      
+    })
+   
+    return res.json({authors : database.authors})
+})
+
+/* 
+Route           /publication/update/
+Description     update name
+Access          PUBLIC
+Parameters      id
+Method          PUT
+*/
+codex.put('/publication/update/:id',(req,res)=>{
+    database.publications.forEach((publication)=>{
+       if(publication.id === Number(req.params.id) ) {
+        publication.name = req.body.publicationName
+        return
+       }
+      
+    })
+   
+    return res.json({publications : database.publications})
+})
+
+/* 
+Route           /publication/update/book/
+Description     update book
+Access          PUBLIC
+Parameters      isbn
+Method          PUT
+*/
+codex.put('/publication/update/book/:isbn', (req, res) => {
+
+    //update the publication database
+    database.publications.forEach((publication) => {
+        if (publication.id  === req.body.pubId){
+            return publication.books.push(req.params.isbn)
+        }
+    })
+
+    //update the book database
+    database.books.forEach((book) => {
+
+        if (book.ISBN  === req.params.isbn){
+            book.publication = req.body.pubId
+            return
+        }
+    })
+    
+    return res.json({
+        books : database.books,
+        publications : database.publications,
+        message : `books and publications got update`
+    })
+})
 
 codex.listen(3000, ()=>{
     console.log('server is running.....')

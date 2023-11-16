@@ -17,7 +17,7 @@ const books =[
         pubDate : '2023-06-24',
         numOfPages : 50,
         category: ['adventures', 'thriller', 'real',],
-        publication : 2
+        publication : 1
     },
 ]
 
@@ -49,7 +49,7 @@ const publications = [
     {
         id : 2,
         name : 'galaxy',
-        books : ['12345TWO']
+        books : []
     },
 ]
 
