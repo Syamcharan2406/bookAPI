@@ -65,20 +65,20 @@ Method          GET
 */
 codex.get('/books/author/:author', (req, res) => {
     const getAuthorId = database.authors.filter(author => author.name === req.params.author)
-                                       .map(author => author.id);
+                                       .map(author => author.id)
 
     
 
     // Handle the case when no author is found
     if (getAuthorId.length === 0) {
-        return res.status(404).json({ error: `No author found with the name ${req.params.author}` });
+        return res.status(404).json({ error: `No author found with the name ${req.params.author}` })
     }
 
     // Now you have the author ID(s), you can use this information as needed.
     // For example, you can find books with this author ID.
-    const getSpecificBooks = database.books.filter(book => book.Authors.includes(...getAuthorId));
+    const getSpecificBooks = database.books.filter(book => book.Authors.includes(...getAuthorId))
 
-    return res.status(200).json({ books: getSpecificBooks });
+    return res.status(200).json({ books: getSpecificBooks })
 });
 
 
@@ -336,11 +336,122 @@ codex.put('/publication/update/book/:isbn', (req, res) => {
             return
         }
     })
-    
+
     return res.json({
         books : database.books,
         publications : database.publications,
         message : `books and publications got update`
+    })
+})
+
+/* 
+Route           /book/delete/
+Description     delete a book
+Access          PUBLIC
+Parameters      isbn
+Method          DELETE
+*/
+codex.delete('/book/delete/:isbn',(req,res)=>{
+    const updatedBookDatabase = database.books.filter(
+        (book) => book.ISBN !== req.params.isbn
+    )
+    database.books = updatedBookDatabase
+    return res.json({books : database.books})
+})
+
+
+/* 
+Route           /book/delete/author/
+Description     delete a author from a book
+Access          PUBLIC
+Parameters      isbn , authorId
+Method          DELETE
+*/
+codex.delete('/book/delete/author/:isbn/:authorId',(req,res)=>{
+    //update bookDatabase
+    database.books.forEach((book)=>{
+        if(book.ISBN === req.params.isbn){
+            const newAuthorList =book.Authors.filter((author)=> author !== Number(req.params.authorId))
+            book.Authors = newAuthorList
+            return
+        }
+    })
+
+    //update authorDatabase
+    database.authors.forEach((author)=>{
+        if(author.id === Number(req.params.authorId)){
+            const newBooksList = author.books.filter((book)=> book !== req.params.isbn)
+            author.books = newBooksList
+            return
+        }
+    })
+    res.json({ 
+        books : database.books,
+        authors : database.authors
+            })
+})
+
+/* 
+Route           /author/delete/
+Description     delete a author
+Access          PUBLIC
+Parameters      authorId
+Method          DELETE
+*/
+codex.delete('/author/delete/:authorId',(req,res)=>{
+    const updatedAuthorDatabase = database.authors.filter(
+        (author) => author.id !== Number(req.params.authorId)
+    )
+    database.authors = updatedAuthorDatabase
+    return res.json({authors : database.authors})
+})
+
+/* 
+Route           /publication/delete/
+Description     delete a publication
+Access          PUBLIC
+Parameters      publicationId
+Method          DELETE
+*/
+codex.delete('/publication/delete/:publicationId',(req,res)=>{
+    const updatedPublicationsDatabase = database.publications.filter(
+        (publication) => publication.id !== Number(req.params.publicationId)
+    )
+    database.publications = updatedPublicationsDatabase
+    
+    return res.json({publications : database.publications})
+})
+
+/* 
+Route           /publication/book/delete/
+Description     delete a publication
+Access          PUBLIC
+Parameters      isbn
+Method          DELETE
+*/
+codex.delete('/publication/book/delete/:isbn',(req,res)=>{
+    // update publication database
+    const getPublicationId = database.publications.filter((publication) => publication.books.includes(req.params.isbn))
+                                       .map(publication => publication.id)
+    database.publications.forEach(publication => {
+        if(getPublicationId.includes(publication.id)){
+            const newPublicationBooks =  publication.books.filter(book => book !== req.params.isbn)
+            publication.books = newPublicationBooks
+            return
+        }
+    })
+
+    // update bookdatabase
+    database.books.forEach(book => {
+        if(book.ISBN === req.params.isbn){
+            book.publication = 0
+            return
+        }
+    })
+    
+    res.json({
+        books : database.books,
+        publications : database.publications
     })
 })
 
