@@ -172,21 +172,21 @@ Method          GET
 */
 codex.get('/publication/isbn/:isbn', (req, res) => {
     const getPublicationId = database.books.filter(book => book.ISBN === req.params.isbn)
-                                       .map(book => book.publication);
+                                       .map(book => book.publication)
 
     
 
     // Handle the case when no publication is found
     if (getPublicationId.length === 0) {
-        return res.status(404).json({ error: `No publication found for book ISBN ${req.params.isbn}` });
+        return res.status(404).json({ error: `No publication found for book ISBN ${req.params.isbn}` })
     }
 
     // Now you have the publication ID(s), you can use this information as needed.
     // For example, you can find publications with this publication ID.
-    const getSpecificPublications = database.publications.filter(publication => getPublicationId.includes(publication.id));
+    const getSpecificPublications = database.publications.filter(publication => getPublicationId.includes(publication.id))
 
-    return res.status(200).json({ publisher: getSpecificPublications });
-});
+    return res.status(200).json({ publisher: getSpecificPublications })
+})
 
 /* 
 Route           /addbook
